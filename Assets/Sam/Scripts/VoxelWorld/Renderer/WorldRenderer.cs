@@ -34,7 +34,7 @@ public class WorldRenderer : IWorldAccess {
 
     public void update(int drawDistance) {
         Vector3 camRotation = Camera.main.transform.eulerAngles;
-        if(this.lastCameraRotation == null || (this.lastCameraRotation != null && this.lastCameraRotation != camRotation)) {
+        if(this.freeRenderers.Count == 0 || (this.lastCameraRotation != null && this.lastCameraRotation != camRotation)) {
             this.lastCameraRotation = camRotation;
             this.planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
         }
