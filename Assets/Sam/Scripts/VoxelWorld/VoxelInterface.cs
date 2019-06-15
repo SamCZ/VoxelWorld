@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -109,7 +110,7 @@ public class VoxelInterface : MonoBehaviour {
             if(this.selectedBlock == i) {
                 GUI.DrawTexture(new Rect(sx + i * (this.barTileTexture.width - padding), sy, this.barTileTexture.width, this.barTileTexture.height), this.barTileTexture);
             }
-            GUI.DrawTexture(new Rect(sx + i * (this.barTileTexture.width - padding) + padding, sy + this.barTileTexture.width / 2 - ts / 2, ts, ts), blocks[i].editorTexturesPreview[0]);
+            GUI.DrawTexture(new Rect(sx + i * (this.barTileTexture.width - padding) + padding, sy + this.barTileTexture.width / 2 - ts / 2, ts, ts), blocks[i].blockTexturesPreview[0]);
         }
 
         GUIStyle centeredStyle = GUI.skin.GetStyle("Label");

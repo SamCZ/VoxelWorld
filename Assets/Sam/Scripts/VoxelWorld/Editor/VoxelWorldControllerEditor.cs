@@ -54,6 +54,8 @@ public class VoxelWorldControllerEditor : Editor {
     }
 
     private void onBlockItemRender(Rect rect, int index, bool isActive, bool isFocused) {
+        voxelController.UpdateTextureBlocksPreview();
+
         //SerializedProperty property = list.serializedProperty.GetArrayElementAtIndex(index);
         Block block = this.voxelController.blocks[index];
         block.id = index + 1;
@@ -88,13 +90,13 @@ public class VoxelWorldControllerEditor : Editor {
         }
         GUI.enabled = true;
         
-        if (texOldState != texSame || block.faceTexturePos == null || block.editorTexturesPreview == null) {
+        if (texOldState != texSame || block.faceTexturePos == null || block.blockTexturesPreview == null) {
             if(texSame) {
                 block.faceTexturePos = new Vector2[1];
-                block.editorTexturesPreview = new Texture[1];
+                block.blockTexturesPreview = new Texture[1];
             } else {
                 block.faceTexturePos = new Vector2[6];
-                block.editorTexturesPreview = new Texture[6];
+                block.blockTexturesPreview = new Texture[6];
             }
         }
         
@@ -110,8 +112,8 @@ public class VoxelWorldControllerEditor : Editor {
                 }
             }
             Rect p = new Rect(texRect.x + i * 55, texRect.y + 2 + EditorGUIUtility.singleLineHeight, 50, 50);
-            if(block.editorTexturesPreview[i] != null) {
-                EditorGUI.DrawTextureTransparent(p, block.editorTexturesPreview[i]);
+            if(block.blockTexturesPreview[i] != null) {
+                EditorGUI.DrawTextureTransparent(p, block.blockTexturesPreview[i]);
             } else {
                 EditorGUI.DrawRect(p, Color.gray);
             }

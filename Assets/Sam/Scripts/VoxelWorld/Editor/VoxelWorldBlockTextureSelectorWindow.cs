@@ -54,9 +54,10 @@ public class VoxelWorldBlockTextureSelectorWindow : EditorWindow {
                 Texture2D newTex = new Texture2D(tileSize, tileSize);
                 newTex.SetPixels(blockPixels);
                 newTex.filterMode = FilterMode.Point;
+                newTex.hideFlags = HideFlags.DontSave;
                 newTex.Apply();
 
-                this.selectedBlock.editorTexturesPreview[this.selectedFace] = newTex;
+                this.selectedBlock.blockTexturesPreview[this.selectedFace] = newTex;
                 this.selectedBlock.faceTexturePos[this.selectedFace] = new Vector2(mlx, mly);
 
                 this.editor.setDirty();

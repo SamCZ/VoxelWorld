@@ -46,7 +46,7 @@ public class Block {
     public float height = 1.0f;
     
     [SerializeField]
-    public Texture[] editorTexturesPreview;
+    public Texture[] blockTexturesPreview;
     [SerializeField]
     public bool isOpen = true;
 }

@@ -7,7 +7,7 @@ public enum WorldGenerationType {
 }
 
 public class VoxelWorldController : MonoBehaviour {
-
+    
     public Material opaqueMaterial;
     public Material transparentMaterial;
     public int textureSize = 512;
@@ -17,7 +17,7 @@ public class VoxelWorldController : MonoBehaviour {
     public int drawDistance = 5;
 
     public int debugDrawLimit = 5;
-    
+
     [HideInInspector]
     public List<Block> blocks;
 
@@ -38,10 +38,58 @@ public class VoxelWorldController : MonoBehaviour {
         this.world = new World(chunkGenerator, this.worldSaver);
         this.worldRenderer = new WorldRenderer(this.world, this.blocks, this.gameObject, new Material[] { this.opaqueMaterial, this.transparentMaterial });
         this.world.setWorldAccess(this.worldRenderer);
-	}
+    }
+
+    void Awake()
+    {
+        UpdateTextureBlocksPreview();
+    }
+
+    public void UpdateTextureBlocksPreview()
+    {
+        foreach (Block block in blocks)
+        {
+            if (block.faceTexturePos == null || block.faceTexturePos.Length == 0) continue;
+
+            if(block.blockTexturesPreview.Length == 0)
+            {
+                block.blockTexturesPreview = new Texture[block.faceTexturePos.Length];
+                RegenerateBlockPreview(block, 0, block.faceTexturePos.Length);
+                continue;
+            }
+
+            for(int i = 0; i < block.blockTexturesPreview.Length; i++)
+            {
+                if(block.blockTexturesPreview[i] == null)
+                {
+                    RegenerateBlockPreview(block, i, 1);
+                }
+            }
+        }
+    }
+
+    private void RegenerateBlockPreview(Block block, int index, int len)
+    {
+        Texture2D tex = opaqueMaterial.mainTexture as Texture2D;
+
+        for(int i = index; i < len; i++)
+        {
+            Vector2 texPos = block.faceTexturePos[i];
+
+            Color[] blockPixels = tex.GetPixels((int)(texPos.x * tileSize), textureSize - (int)(texPos.y * tileSize) - tileSize, tileSize, tileSize, 0);
+
+            Texture2D newTex = new Texture2D(tileSize, tileSize);
+            newTex.SetPixels(blockPixels);
+            newTex.filterMode = FilterMode.Point;
+            newTex.hideFlags = HideFlags.DontSave;
+            newTex.Apply();
+
+            block.blockTexturesPreview[i] = newTex;
+        }
+    }
 
     void OnDisable() {
-        this.worldSaver.savePlayerLocation(Camera.main.transform);
+        //this.worldSaver.savePlayerLocation(Camera.main.transform);
         this.worldSaver.saveAll();
     }
 
@@ -53,7 +101,7 @@ public class VoxelWorldController : MonoBehaviour {
         int bz = Mathf.FloorToInt(z);
 
         int maxHeight = this.world.getHeight(bx, bz);
-        Camera.main.transform.parent.position = new Vector3(x + 0.5f, maxHeight + 2.5f, z + 0.5f);
+        Camera.main.transform.parent.position = new Vector3(x + 0.5f, maxHeight + 50.5f, z + 0.5f);
     }
 
     void Update () {
