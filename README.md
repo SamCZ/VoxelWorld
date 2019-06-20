@@ -15,7 +15,7 @@ Hi! This is my multiple attemp on minecraft in unity.
  - Custom frustum culling
  - Saving
  - 9 types of block in the world (You can add more)
- - Epandable draw distance
+ - Expandable draw distance
 
 ## Download lastest executable
 
