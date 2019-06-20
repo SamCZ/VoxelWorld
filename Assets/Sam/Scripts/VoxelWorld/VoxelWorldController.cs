@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WorldGenerationType {
+public enum WorldGenerationType
+{
     Noise, Flat
 }
 
-public class VoxelWorldController : MonoBehaviour {
-    
+public class VoxelWorldController : MonoBehaviour
+{
+
     public Material opaqueMaterial;
     public Material transparentMaterial;
     public int textureSize = 512;
@@ -28,12 +30,16 @@ public class VoxelWorldController : MonoBehaviour {
 
     private bool isBeenSpawned = false;
 
-    void Start () {
+    void Start()
+    {
         IChunkProvider chunkGenerator = null;
-        if(this.generationType == WorldGenerationType.Flat) {
+        if (this.generationType == WorldGenerationType.Flat)
+        {
             chunkGenerator = new ChunkProviderGenratorFlat();
-        } else if(this.generationType == WorldGenerationType.Noise) {
-            chunkGenerator = new ChunkProviderGeneratorNoise(0, this.blocks);
+        }
+        else if (this.generationType == WorldGenerationType.Noise)
+        {
+            chunkGenerator = new ChunkProviderGeneratorNoise(new System.Random().Next(0, int.MaxValue), this.blocks);
         }
         this.world = new World(chunkGenerator, this.worldSaver);
         this.worldRenderer = new WorldRenderer(this.world, this.blocks, this.gameObject, new Material[] { this.opaqueMaterial, this.transparentMaterial });
@@ -51,16 +57,16 @@ public class VoxelWorldController : MonoBehaviour {
         {
             if (block.faceTexturePos == null || block.faceTexturePos.Length == 0) continue;
 
-            if(block.blockTexturesPreview.Length == 0)
+            if (block.blockTexturesPreview.Length == 0)
             {
                 block.blockTexturesPreview = new Texture[block.faceTexturePos.Length];
                 RegenerateBlockPreview(block, 0, block.faceTexturePos.Length);
                 continue;
             }
 
-            for(int i = 0; i < block.blockTexturesPreview.Length; i++)
+            for (int i = 0; i < block.blockTexturesPreview.Length; i++)
             {
-                if(block.blockTexturesPreview[i] == null)
+                if (block.blockTexturesPreview[i] == null)
                 {
                     RegenerateBlockPreview(block, i, 1);
                 }
@@ -72,7 +78,7 @@ public class VoxelWorldController : MonoBehaviour {
     {
         Texture2D tex = opaqueMaterial.mainTexture as Texture2D;
 
-        for(int i = index; i < len; i++)
+        for (int i = index; i < len; i++)
         {
             Vector2 texPos = block.faceTexturePos[i];
 
@@ -88,12 +94,14 @@ public class VoxelWorldController : MonoBehaviour {
         }
     }
 
-    void OnDisable() {
+    void OnDisable()
+    {
         //this.worldSaver.savePlayerLocation(Camera.main.transform);
         this.worldSaver.saveAll();
     }
 
-    private void randomSpawn() {
+    private void randomSpawn()
+    {
         float x = (Random.value * 2.0f - 1.0f) * 60;
         float z = (Random.value * 2.0f - 1.0f) * 60;
 
@@ -101,20 +109,24 @@ public class VoxelWorldController : MonoBehaviour {
         int bz = Mathf.FloorToInt(z);
 
         int maxHeight = this.world.getHeight(bx, bz);
-        Camera.main.transform.parent.position = new Vector3(x + 0.5f, maxHeight + 50.5f, z + 0.5f);
+        Camera.main.transform.parent.position = new Vector3(x + 0.5f, maxHeight + 2.5f, z + 0.5f);
     }
 
-    void Update () {
-        if (!this.isBeenSpawned) {
-            if(!this.worldSaver.loadPlayerLocation(Camera.main.transform)) {
+    void Update()
+    {
+        if (!this.isBeenSpawned)
+        {
+            if (!this.worldSaver.loadPlayerLocation(Camera.main.transform))
+            {
                 this.randomSpawn();
             }
             this.isBeenSpawned = true;
         }
         this.worldRenderer.update(this.drawDistance);
-	}
+    }
 
-    public bool getPlayerBlockPick(Transform transform, out Vector3 lookingAt, out Vector3 placeAt, out byte blockId, int pickBlockDistance = 8) {
+    public bool getPlayerBlockPick(Transform transform, out Vector3 lookingAt, out Vector3 placeAt, out byte blockId, int pickBlockDistance = 8)
+    {
         lookingAt = Vector3.zero;
         placeAt = Vector3.zero;
         blockId = 0;
@@ -133,7 +145,8 @@ public class VoxelWorldController : MonoBehaviour {
         float xChange = (float)(-Mathf.Cos((transform.eulerAngles.y + 90) / 180 * Mathf.PI) * ymult);
         float zChange = (float)(Mathf.Sin((transform.eulerAngles.y + 90) / 180 * Mathf.PI) * ymult);
 
-        for (float f = 0; f <= pickBlockDistance; f += 0.01f) {
+        for (float f = 0; f <= pickBlockDistance; f += 0.01f)
+        {
             xl = xn;
             yl = yn;
             zl = zn;
@@ -143,7 +156,8 @@ public class VoxelWorldController : MonoBehaviour {
             zn = transform.position.z + f * zChange;
 
             blockId = this.world.getBlockId(Mathf.FloorToInt(xn), Mathf.FloorToInt(yn), Mathf.FloorToInt(zn));
-            if (blockId > 0) {
+            if (blockId > 0)
+            {
                 lookingAt = new Vector3(Mathf.FloorToInt(xn), Mathf.FloorToInt(yn), Mathf.FloorToInt(zn));
                 placeAt = new Vector3(Mathf.FloorToInt(xl), Mathf.FloorToInt(yl), Mathf.FloorToInt(zl));
                 return true;
@@ -152,18 +166,22 @@ public class VoxelWorldController : MonoBehaviour {
         return false;
     }
 
-    public World getWorld() {
+    public World getWorld()
+    {
         return this.world;
     }
 
-    public Block getBlockInstance(byte blockId) {
-        if (blockId - 1 < this.blocks.Count && blockId - 1 >= 0) {
+    public Block getBlockInstance(byte blockId)
+    {
+        if (blockId - 1 < this.blocks.Count && blockId - 1 >= 0)
+        {
             return this.blocks[blockId - 1];
         }
         return Block.AIR;
     }
 
-    public List<Block> getBlocks() {
+    public List<Block> getBlocks()
+    {
         return this.blocks;
     }
 }

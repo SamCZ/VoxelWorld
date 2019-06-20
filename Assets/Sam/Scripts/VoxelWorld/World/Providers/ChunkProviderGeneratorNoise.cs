@@ -14,7 +14,7 @@ public class ChunkProviderGeneratorNoise : IChunkProvider
     {
         this.seed = seed;
 
-        this.noise = new FastNoise();
+        this.noise = new FastNoise(seed);
         this.noise.SetNoiseType(FastNoise.NoiseType.Simplex);
 
         this.noiceCache = new float[16 + 2, 16 + 2];
