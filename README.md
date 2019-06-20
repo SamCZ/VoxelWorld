@@ -9,8 +9,8 @@ Hi! This is my multiple attemp on minecraft in unity.
  - Destroying and placing
  - Destroy block animation
  - Two types of blocks
- -- Normal - opaque/transparent
- -- Cross - for flovers and vegetaion
+ - - Normal - opaque/transparent
+ - - Cross - for flovers and vegetaion
  - Editor block creation
  - Custom frustum culling
  - Saving
