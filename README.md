@@ -16,3 +16,8 @@ Hi! This is my multiple attemp on minecraft in unity.
  - Saving
  - 9 types of block in the world (You can add more)
  - Epandable draw distance
+
+## Download lastest executable
+
+ - [VoxelWorld_Executable.7z](https://github.com/SamCZ/VoxelWorld/releases/download/0.0.1/VoxelWorld_Executable.7z)
+ - [VoxelWorld_Executable.zip](https://github.com/SamCZ/VoxelWorld/releases/download/0.0.1/VoxelWorld_Executable.zip)
