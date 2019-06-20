@@ -1,10 +1,18 @@
 # VoxelWorld in Unity3D 2019.1.0f2
 
 Hi! This is my multiple attemp on minecraft in unity.
-![PreviewOfTheGame](https://image.prntscr.com/image/P8hGlAXhTmeLpuAMRvfoiA.png)
+![PreviewOfTheGame](https://image.prntscr.com/image/TVFZHmcTRpOr2xyQTk0F3A.png)
 
-This version offers only 1 chunk(16 blocks) to height but infinite x/z generation.
+## Features
 
-## Future
-
-Maybe i am gonna make 16 chunks to height like minecaft, in this version it is pretty ease to make.
+ - Infinite world x/y and height max 256 blocks
+ - Destroying and placing
+ - Destroy block animation
+ - Two types of blocks
+ -- Normal - opaque/transparent
+ -- Cross - for flovers and vegetaion
+ - Editor block creation
+ - Custom frustum culling
+ - Saving
+ - 9 types of block in the world (You can add more)
+ - Epandable draw distance
